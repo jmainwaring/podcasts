@@ -1,0 +1,6 @@
+ This directory came from Spotify's guide for how to quickly start an 
+ application with the spotify API1:
+ https://developer.spotify.com/documentation/web-api/quick-start/
+
+Much of this code will be probably copied over into the authentication portion
+of my app 
