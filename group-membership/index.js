@@ -9,19 +9,29 @@ require('dotenv').config(); // Removes private keys from public code
 
 const dbservice = require('./db_service');
 
+
+// console.log(process.env.DB_PORT)
+// console.log(process.env.USERNAME)
+// console.log(process.env.PASSWORD)
+// console.log(process.env.DATABASE)
+// console.log(process.env.HOST)
+// console.log(process.env.NAMEDPLACEHOLDERS)
+
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-  
+
 
 /*
 I currently have a users table, a groups table, and a users/groups junction table. Each record in the 
 junction table is one membership, AKA user 73 joined group 12. Only need three actions: write a new record
 to the table, delete a record from the table, and read from the table 
 */
+
 
 
 // Read all memberships
@@ -37,17 +47,16 @@ app.get('/groups/memberships', async (req, res) => {
 });
 
 
-
 // Read one specific membership by id (e.g., groups/membership/4)
 app.get('/groups/membership/:id', async (req, res) => {
 
-  // const new_membership_id = req.query.id;  
-  const new_membership_id = req.params.id;  
+  // const id_membership = req.query.id;  
+  const id_membership = req.params.id;  
 
 // Need to validate inputs. Currently accepts anything. Use RequestValidationError from class?
 
   try {
-    const results = await dbservice.promise().query("SELECT * FROM group_membership WHERE new_membership_id = :id", {id: new_membership_id})
+    const results = await dbservice.promise().query("SELECT * FROM group_membership WHERE id_membership = :id", {id: id_membership})
     res.status(200).send(results[0])
   }
   catch (err) { 
@@ -57,19 +66,18 @@ app.get('/groups/membership/:id', async (req, res) => {
 
 
 
-
 // New membership
 app.post('/groups/newmembership', async (req, res) => {
 
-  const { user_id, group_id } = req.body;
+  const { id_user, id_group } = req.body;
   var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
 
 
   // Need to validate inputs. Currently accepts anything. Use RequestValidationError from class? 
 
   try {
-    const results = await dbservice.promise().query("INSERT INTO group_membership (user_id, group_id, ts) VALUES (:user_id,\
-      :group_id, :mysqlTimestamp)", { user_id: user_id, group_id: group_id, mysqlTimestamp: mysqlTimestamp });
+    const results = await dbservice.promise().query("INSERT INTO group_membership (id_user, id_group, created_at) VALUES (:id_user,\
+      :id_group, :mysqlTimestamp)", { id_user: id_user, id_group: id_group, mysqlTimestamp: mysqlTimestamp });
     res.status(201).send(results[0])
   }
   catch (err) { 
@@ -82,18 +90,18 @@ app.post('/groups/newmembership', async (req, res) => {
 
 
 // Remove membership
-app.delete('/groups/removemembership', async (req, res) => {
+app.delete('/groups/membership/:id', async (req, res) => {
 
-  const { new_membership_id } = req.body;
+  const id_membership = req.params.id;  
 
-  // Also able to delete with user_id and group_id instead of new_membership_id?
+  // Also able to delete with id_user and id_group instead of id_membership?
 
 
   // Need to validate inputs. Currently accepts anything. Use RequestValidationError from class? 
 
   try {
     const results = await dbservice.promise().query("DELETE FROM group_membership\
-      WHERE new_membership_id = :new_membership_id", { new_membership_id: new_membership_id });
+      WHERE id_membership = :id_membership", { id_membership: id_membership });
     res.status(200).send(results[0])
   }
   catch (err) { 
@@ -107,4 +115,3 @@ app.delete('/groups/removemembership', async (req, res) => {
 app.listen(4010, () => {
   console.log('Listening on 4010');
 });
-  

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: group-membership-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: group-membership
+  template:
+    metadata:
+      labels:
+        app: group-membership
+    spec:
+      containers:
+        - name: group-membership
+          image: jsmainwaring/group-membership
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: group-membership-srv
+spec:
+  selector:
+    app: group-membership
+  ports:
+    - name: group-membership
+      protocol: TCP
+      port: 4010
+      targetPort: 4010

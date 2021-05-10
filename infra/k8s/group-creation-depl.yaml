@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: group-creation-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: group-creation
+  template:
+    metadata:
+      labels:
+        app: group-creation
+    spec:
+      containers:
+        - name: group-creation
+          image: jsmainwaring/group-creation
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: group-creation-srv
+spec:
+  selector:
+    app: group-creation
+  ports:
+    - name: group-creation
+      protocol: TCP
+      port: 4011
+      targetPort: 4011

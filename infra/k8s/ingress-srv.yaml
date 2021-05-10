@@ -26,4 +26,10 @@ spec:
             backend:
               serviceName: client-srv
               servicePort: 3000
-
+    - host: groups.com
+      http:
+        paths:
+          - path: /groups
+            backend:
+              serviceName: group-membership-srv
+              servicePort: 4010
