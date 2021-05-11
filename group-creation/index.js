@@ -9,6 +9,7 @@ require('dotenv').config(); // Removes private keys from public code
 
 const dbservice = require('./db_service');
 const getTimestamp = require('../common/getTimestamp');
+const generateUpdate = require('../common/generateUpdate');
 
 const app = express();
 app.use(cors());
@@ -104,32 +105,27 @@ app.delete('/groups/:id', async (req, res) => {
 
 
 // Modify group
-app.put('/groups/membership', async (req, res) => {
+app.put('/groups/', async (req, res) => {
 
-  const id_group = req.params.id;
-  const { group_name, group_description, id_user, created_at } = req.body;
+  // Do I need to be consistent between snake_case and camelCase?
+  const tableName = "podcast_groups";
+  const { valuesAndCondition } = req.body;
 
-
-// https://www.w3schools.com/sql/sql_update.asp
-
-// Think through how to only update the fields passed in. Helper function?
-
+  // Generating the full SQL UPDATE query
+  const [rawSql, sqlParameters] = generateUpdate.generateUpdateStatement(tableName, valuesAndCondition)
 
 
-//   // Need to validate inputs. Currently accepts anything. Use RequestValidationError from class? 
+// Need to validate inputs. Currently accepts anything. Use RequestValidationError from class? 
 
-//   try {
-//     const results = await dbservice.promise().query("DELETE FROM podcast_groups\
-//       WHERE id_group = :id_group", { id_group: id_group });
-//     res.status(200).send(results[0])
-//   }
-//   catch (err) { 
-//     console.log(err)
-//   }
+  try {
+    const results = await dbservice.promise().query(rawSql, sqlParameters);
+    res.status(200).send(results[0])
+  }
+  catch (err) { 
+    console.log(err)
+  }
  
 });
-
-
 
 
 
