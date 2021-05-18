@@ -1,15 +1,17 @@
 import React from 'react';
-import PostCreate from './PostCreate';
-import PostList from './PostList';
+import { BrowserRouter, Route } from 'react-router-dom';
+import Home from './Home';
+import GroupCreate from './GroupCreate';
 
 export default () => {
   return (
-    <div className="container">
-      <h1>Create a post</h1>
-      <PostCreate />
-      <hr />
-      <h1>Posts</h1>
-      <PostList />
+    <div>
+      <BrowserRouter>
+        <div>
+          <Route path="/" exact component={Home} />
+          <Route path="/groupcreate" exact component={GroupCreate} />
+        </div>
+      </BrowserRouter>
     </div>
   );
 };

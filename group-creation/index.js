@@ -112,7 +112,7 @@ app.put('/groups/', async (req, res) => {
   const { valuesAndCondition } = req.body;
 
   // Generating the full SQL UPDATE query
-  const [rawSql, sqlParameters] = generateUpdate.generateUpdateStatement(tableName, valuesAndCondition)
+  const [rawSql, sqlParameters] = generateUpdate.generateUpdateStatement(tableName, valuesAndCondition);
 
 
 // Need to validate inputs. Currently accepts anything. Use RequestValidationError from class? 
