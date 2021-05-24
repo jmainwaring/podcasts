@@ -38,7 +38,7 @@ to the table, delete a record from the table, and read from the table
 app.get('/groups/memberships', async (req, res) => {
 
   try {
-    const results = await dbservice.promise().query(`SELECT * FROM group_membership`)
+    const results = await dbservice.promise().query(`SELECT * FROM dim_group_membership`)
     res.status(200).send(results[0])
   }
   catch (err) {
@@ -56,7 +56,7 @@ app.get('/groups/membership/:id', async (req, res) => {
 // Need to validate inputs. Currently accepts anything. Use RequestValidationError from class?
 
   try {
-    const results = await dbservice.promise().query("SELECT * FROM group_membership WHERE id_membership = :id", {id: id_membership})
+    const results = await dbservice.promise().query("SELECT * FROM dim_group_membership WHERE id_membership = :id", {id: id_membership})
     res.status(200).send(results[0])
   }
   catch (err) { 
@@ -76,7 +76,7 @@ app.post('/groups/newmembership', async (req, res) => {
   // Need to validate inputs. Currently accepts anything. Use RequestValidationError from class? 
 
   try {
-    const results = await dbservice.promise().query("INSERT INTO group_membership (id_user, id_group, created_at) VALUES (:id_user,\
+    const results = await dbservice.promise().query("INSERT INTO dim_group_membership (id_user, id_group, created_at) VALUES (:id_user,\
       :id_group, :mysqlTimestamp)", { id_user: id_user, id_group: id_group, mysqlTimestamp: mysqlTimestamp });
     res.status(201).send(results[0])
   }
@@ -100,7 +100,7 @@ app.delete('/groups/membership/:id', async (req, res) => {
   // Need to validate inputs. Currently accepts anything. Use RequestValidationError from class? 
 
   try {
-    const results = await dbservice.promise().query("DELETE FROM group_membership\
+    const results = await dbservice.promise().query("DELETE FROM dim_group_membership\
       WHERE id_membership = :id_membership", { id_membership: id_membership });
     res.status(200).send(results[0])
   }

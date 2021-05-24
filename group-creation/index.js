@@ -29,7 +29,7 @@ to the table, delete a record from the table, and read from the table
 app.get('/groups/allgroups', async (req, res) => {
 
   try {
-    const results = await dbservice.promise().query("SELECT * FROM podcast_groups")
+    const results = await dbservice.promise().query("SELECT * FROM dim_podcast_groups")
     res.status(200).send(results[0])
   }
   catch (err) {
@@ -47,7 +47,7 @@ app.get('/groups/:id', async (req, res) => {
 // Need to validate inputs. Currently accepts anything. Use RequestValidationError from class?
 
   try {
-    const results = await dbservice.promise().query("SELECT * FROM podcast_groups WHERE id_group = :id", {id: id_group})
+    const results = await dbservice.promise().query("SELECT * FROM dim_podcast_groups WHERE id_group = :id", {id: id_group})
     res.status(200).send(results[0])
   }
   catch (err) { 
@@ -69,10 +69,13 @@ app.post('/groups/', async (req, res) => {
   // Need to validate inputs. Currently accepts anything. Use RequestValidationError from class? 
 
   try {
-    const results = await dbservice.promise().query("INSERT INTO podcast_groups (group_name, group_description, id_user,\
+    const results = await dbservice.promise().query("INSERT INTO dim_podcast_groups (group_name, group_description, id_user,\
       created_at) VALUES (:group_name, :group_description, :id_user, :timestamp)", 
       { group_name: group_name, group_description: group_description, id_user: id_user, timestamp: timestamp });
-    res.status(201).send(results[0])
+    
+      console.log(group_name);
+    
+      res.status(201).send(results[0])
   }
   catch (err) { 
     console.log(err)
@@ -91,7 +94,7 @@ app.delete('/groups/:id', async (req, res) => {
   // Need to validate inputs. Currently accepts anything. Use RequestValidationError from class? 
 
   try {
-    const results = await dbservice.promise().query("DELETE FROM podcast_groups\
+    const results = await dbservice.promise().query("DELETE FROM dim_podcast_groups\
       WHERE id_group = :id_group", { id_group: id_group });
     res.status(200).send(results[0])
   }
@@ -108,7 +111,7 @@ app.delete('/groups/:id', async (req, res) => {
 app.put('/groups/', async (req, res) => {
 
   // Do I need to be consistent between snake_case and camelCase?
-  const tableName = "podcast_groups";
+  const tableName = "dim_podcast_groups";
   const { valuesAndCondition } = req.body;
 
   // Generating the full SQL UPDATE query
