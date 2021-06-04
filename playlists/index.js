@@ -69,13 +69,15 @@ app.get(
 
   function (req, res) {
     const playlist_id = "2cY4kuJiz1hg6gDYHB34I7";
-    const episode_id = "7a1KzyIHHF51aTsuaEeejE";
-    axios.post(`https://api.spotify.com/v1/playlists/{playlist_id}/{episode_id}`);
+    const episode_id = "46BkCZaK49uiXIdpo3Xp49";
+    axios.post(`https://api.spotify.com/v1/playlists/tracks?uris=spotify%3Aepisode%3A{episode_id}`);
     console.log('A')
     res.status(201).send("Episode successfully added");
     console.log('B')
     console.log('C')
   })
+
+
 
 
   // try {
