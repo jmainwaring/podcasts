@@ -4,7 +4,8 @@ const cors = require('cors');
 const axios = require('axios');
 const passport = require('passport');
 
-const port = 8888;
+// When I end up changing the port, make sure to add the new Redirect URI to project on spotify developer portal
+const port = 8888;  
 
 require('dotenv').config(); // Removes private keys from public code
 
@@ -44,10 +45,52 @@ app.get(
   '/auth/spotify/callback',
   passport.authenticate('spotify', { failureRedirect: '/login' }),
   function (req, res) {
-    console.log(req);
+    // console.log(req);
     res.redirect('/');
   }
 );
+  
+
+
+// Add episode to a playlist
+app.get(
+  '/episode', 
+  passport.authenticate('spotify', 
+  { scope: ['playlist-modify-public', 'playlist-modify-private']}), 
+
+  
+  function (req, res, next) {
+  
+    console.log('Test')
+    next()},
+
+
+  // Need to validate inputs
+
+  function (req, res) {
+    const playlist_id = "2cY4kuJiz1hg6gDYHB34I7";
+    const episode_id = "7a1KzyIHHF51aTsuaEeejE";
+    axios.post(`https://api.spotify.com/v1/playlists/{playlist_id}/{episode_id}`);
+    console.log('A')
+    res.status(201).send("Episode successfully added");
+    console.log('B')
+    console.log('C')
+  })
+
+
+  // try {
+  //   axios.post(`https://api.spotify.com/v1/playlists/{playlist_id}/{episode_id}`, function (req, res) {
+  //     res.status(201).send("Episode successfully added") 
+  //     res.redirect('/');  
+  //   })
+  // }
+  // catch (err) { 
+  //   console.log(err)
+  // }
+
+
+  // });
+
 
 app.listen(port, () => {
   console.log(`Listening on ${port}`);
