@@ -30,7 +30,8 @@ spec:
         env:
         # Use secret in real usage
         - name: MYSQL_ROOT_PASSWORD
-          value: help!! lol 
+          value: test123
+        # value: help!! lol 
         # - user: process.env.USERNAME 
         #   password: process.env.PASSWORD 
         #   database: process.env.DATABASE   
