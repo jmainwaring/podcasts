@@ -5,10 +5,11 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 export default () => {
   return (
     <div>
-      <h1>Group podcast app</h1>
+      <h1>Group podcast app homepage</h1>
       <Link to="/groupcreate">Create a new group</Link>
       <br/>
-      <Link to="/membershipchange">Add or remove someone from a group</Link>
+      <br/>
+      Currently just a placeholder
     </div>
   );
 };
