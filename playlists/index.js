@@ -3,9 +3,13 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const axios = require('axios');
 const passport = require('passport');
+const ppmodule = require('./passport')
 
 // When I end up changing the port, make sure to add the new Redirect URI to project on spotify developer portal
 const port = 8888;  
+
+
+
 
 require('dotenv').config(); // Removes private keys from public code
 
@@ -39,44 +43,63 @@ app.get(
     ],
     showDialog: true,
   })
-);
 
+);
+0
 app.get(
   '/auth/spotify/callback',
   passport.authenticate('spotify', { failureRedirect: '/login' }),
   function (req, res) {
-    // console.log(req);
+    console.log("isAuthenticated: " + req.isAuthenticated());
+    console.log('----------------------------------------------')
+    console.log(ppmodule.accessToken)
+    // res.send(Access code. Attach this as a header to future requests)
     res.redirect('/');
   }
 );
   
 
 
+
+
+// TO-DO: Now that I have the acecss token, attach it as a header to future spotify api requests
+// Function should take in the request object and output is the string?
+// Either add new middleware to common directory, or use this - https://github.com/thelinmichael/spotify-web-api-node
+
+
+
+
+
 // Add episode to a playlist
 app.get(
   '/episode', 
-  passport.authenticate('spotify', 
-  { scope: ['playlist-modify-public', 'playlist-modify-private']}), 
-
-  
-  function (req, res, next) {
-  
-    console.log('Test')
-    next()},
-
 
   // Need to validate inputs
 
   function (req, res) {
+
+
+    console.log(ppmodule.accessToken);
+
+
+    // NEED ACCESS TOKEN!!!!!!!!!!!
+  
+    
     const playlist_id = "2cY4kuJiz1hg6gDYHB34I7";
     const episode_id = "46BkCZaK49uiXIdpo3Xp49";
     axios.post(`https://api.spotify.com/v1/playlists/tracks?uris=spotify%3Aepisode%3A{episode_id}`);
     console.log('A')
     res.status(201).send("Episode successfully added");
     console.log('B')
-    console.log('C')
-  })
+    // res.redirect('/')??? Necessary????  
 
+  }),
+
+
+  function (req, res, next) {
+  
+    console.log('Test')
+    next()},
 
 
 

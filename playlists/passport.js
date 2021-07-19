@@ -1,5 +1,8 @@
 const passport = require('passport');
 const SpotifyStrategy = require('passport-spotify').Strategy;
+require('dotenv').config();
+
+var myConfig = {};
 
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -18,8 +21,12 @@ passport.use(
     },
     function (accessToken, refreshToken, expires_in, profile, done) {
       process.nextTick(function () {
+        myConfig.accessToken = accessToken;
         return done(null, profile);
       });
     }
-  )
-);
+    )
+    );
+    
+    
+    module.exports = myConfig;
