@@ -2,12 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const axios = require('axios');
+var request = require('request');
 const passport = require('passport');
-const ppmodule = require('./passport')
+const ppmodule = require('./passport');
+const playlistMod = require('../common/playlistModification');
 
 // When I end up changing the port, make sure to add the new Redirect URI to project on spotify developer portal
 const port = 8888;  
-
 
 
 
@@ -45,7 +46,7 @@ app.get(
   })
 
 );
-0
+
 app.get(
   '/auth/spotify/callback',
   passport.authenticate('spotify', { failureRedirect: '/login' }),
@@ -54,6 +55,7 @@ app.get(
     console.log('----------------------------------------------')
     console.log(ppmodule.accessToken)
     // res.send(Access code. Attach this as a header to future requests)
+
     res.redirect('/');
   }
 );
@@ -62,59 +64,61 @@ app.get(
 
 
 
-// TO-DO: Now that I have the acecss token, attach it as a header to future spotify api requests
-// Function should take in the request object and output is the string?
-// Either add new middleware to common directory, or use this - https://github.com/thelinmichael/spotify-web-api-node
+// TO-DO: Format uri, and pass playlist and the episode in as args vs hard-coding
+// Consider using this - https://github.com/thelinmichael/spotify-web-api-node
+
+// Add episode to a playlist (does currently work)
+app.get('/episode',
+// , function(args){
+//   console.log('Format url and uri here')}, 
+  function(req, res){
+  request({
+    url: `https://api.spotify.com/v1/playlists/2cY4kuJiz1hg6gDYHB34I7/tracks?uris=spotify%3Aepisode%3A46BkCZaK49uiXIdpo3Xp49`,
+    // uri: 'spotify:episode:46BkCZaK49uiXIdpo3Xp49',
+    // uri: 'spotify%3Aepisode%3A46BkCZaK49uiXIdpo3Xp49',
+    method: "POST",
+
+    // params: {
+    //   'uris': `spotify%3Aepisode%3A446BkCZaK49uiXIdpo3Xp49`
+    // },
+    
+    headers: {
+      'Accept': 'application/json',  
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${ppmodule.accessToken}`
+    },
+    body: '{}'
+  }, function (error, response, data){
+    //send the access token back to client
+    res.end(data);
+  });    
+});
+  
 
 
-
-
-
-// Add episode to a playlist
+// Can either use approach above or middleware function like below
+// Add episode to a playlist (doesn't currently work)
 app.get(
-  '/episode', 
-
-  // Need to validate inputs
+  '/newepisode', 
 
   function (req, res) {
+    playlistMod.playlistModificationRequest(
+      'post',
+      "2cY4kuJiz1hg6gDYHB34I7",
+      "46BkCZaK49uiXIdpo3Xp49",
+      ppmodule.accessToken
+    )
+    res.send('Added!')
+  }
+)
 
 
-    console.log(ppmodule.accessToken);
-
-
-    // NEED ACCESS TOKEN!!!!!!!!!!!
+  // function (req, res, next) {
   
-    
-    const playlist_id = "2cY4kuJiz1hg6gDYHB34I7";
-    const episode_id = "46BkCZaK49uiXIdpo3Xp49";
-    axios.post(`https://api.spotify.com/v1/playlists/tracks?uris=spotify%3Aepisode%3A{episode_id}`);
-    console.log('A')
-    res.status(201).send("Episode successfully added");
-    console.log('B')
-    // res.redirect('/')??? Necessary????  
-
-  }),
+  //   console.log('Test')
+  //   next()},
 
 
-  function (req, res, next) {
-  
-    console.log('Test')
-    next()},
-
-
-
-  // try {
-  //   axios.post(`https://api.spotify.com/v1/playlists/{playlist_id}/{episode_id}`, function (req, res) {
-  //     res.status(201).send("Episode successfully added") 
-  //     res.redirect('/');  
-  //   })
-  // }
-  // catch (err) { 
-  //   console.log(err)
-  // }
-
-
-  // });
 
 
 app.listen(port, () => {
