@@ -8,8 +8,8 @@ const moment = require('moment');
 require('dotenv').config(); // Removes private keys from public code
 
 const dbservice = require('./db_service');
-const getTimestamp = require('../common/getTimestamp');
-const generateUpdate = require('../common/generateUpdate');
+const getTimestamp = require('./helpers/getTimestamp');
+const generateUpdate = require('./helpers/generateUpdate');
 
 const app = express();
 app.use(cors());

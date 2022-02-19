@@ -50,7 +50,6 @@ app.get('/groups/memberships', async (req, res) => {
 // Read one specific membership by id (e.g., groups/membership/4)
 app.get('/groups/membership/:id', async (req, res) => {
 
-  // const id_membership = req.query.id;  
   const id_membership = req.params.id;  
 
 // Need to validate inputs. Currently accepts anything. Use RequestValidationError from class?
