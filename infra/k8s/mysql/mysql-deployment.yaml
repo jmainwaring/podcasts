@@ -18,7 +18,7 @@ spec:
     matchLabels:
       app: mysql
   strategy:
-    type: 
+    type: Recreate
   template:
     metadata:
       labels:
@@ -28,13 +28,9 @@ spec:
       - image: mysql:5.6
         name: mysql
         env:
-        # Use secret in real usage
+          # Use secret in real usage
         - name: MYSQL_ROOT_PASSWORD
-          value: test123
-        # value: help!! lol 
-        # - user: process.env.USERNAME 
-        #   password: process.env.PASSWORD 
-        #   database: process.env.DATABASE   
+          value: password
         ports:
         - containerPort: 3306
           name: mysql

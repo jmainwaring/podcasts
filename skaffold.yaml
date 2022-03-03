@@ -72,5 +72,13 @@ build:
         manual:
           - src: '*.js'
             dest: .
+    - image: jsmainwaring/playlists
+      context: playlists
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
     # - image: mysql
     #   context: mysql

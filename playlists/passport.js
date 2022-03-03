@@ -2,6 +2,8 @@ const passport = require('passport');
 const SpotifyStrategy = require('passport-spotify').Strategy;
 require('dotenv').config();
 
+// Change port to 8888 if not running through kubernetes;  
+const port = 32000;  
 var myConfig = {};
 
 passport.serializeUser(function (user, done) {
@@ -17,7 +19,7 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: 'http://localhost:8888/auth/spotify/callback',
+      callbackURL: `http://localhost:${port}/auth/spotify/callback`,
     },
     function (accessToken, refreshToken, expires_in, profile, done) {
       process.nextTick(function () {

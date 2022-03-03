@@ -29,7 +29,19 @@ spec:
     - host: groups.com
       http:
         paths:
-          - path: /groups
+          - path: /groups/memberships
             backend:
               serviceName: group-membership-srv
               servicePort: 4010
+          # - path: /groups
+          #   backend:
+          #     serviceName: group-creation-srv
+          #     servicePort: 4011
+          - path: /auth/spotify
+            backend:
+              serviceName: playlists-srv
+              servicePort: 8888
+          - path: /episode
+            backend:
+              serviceName: playlists-srv
+              servicePort: 8888

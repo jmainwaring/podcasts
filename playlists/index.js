@@ -5,7 +5,7 @@ const axios = require('axios');
 var request = require('request');
 const passport = require('passport');
 const ppmodule = require('./passport');
-const playlistMod = require('../common/playlistModification');
+const playlistMod = require('./playlistModification');
 
 // When I end up changing the port, make sure to add the new Redirect URI to project on spotify developer portal
 const port = 8888;  

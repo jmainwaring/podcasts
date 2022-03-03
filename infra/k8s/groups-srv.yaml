@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: groups-srv
+spec:
+  type: NodePort
+  selector:
+    app: playlists
+  ports:
+    - name: groups
+      protocol: TCP
+      port: 8888
+      nodePort: 32000
+      targetPort: 8888
