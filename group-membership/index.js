@@ -9,15 +9,6 @@ require('dotenv').config(); // Removes private keys from public code
 
 const dbservice = require('./db_service');
 
-
-// console.log(process.env.DB_PORT)
-// console.log(process.env.USERNAME)
-// console.log(process.env.PASSWORD)
-// console.log(process.env.DATABASE)
-// console.log(process.env.HOST)
-// console.log(process.env.NAMEDPLACEHOLDERS)
-
-
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());

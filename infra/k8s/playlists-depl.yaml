@@ -28,3 +28,18 @@ spec:
       protocol: TCP
       port: 8888
       targetPort: 8888
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: playlists-np
+spec:
+  type: NodePort
+  selector:
+    app: playlists
+  ports:
+    - name: playlists-np
+      protocol: TCP
+      port: 8888
+      nodePort: 32000
+      targetPort: 8888

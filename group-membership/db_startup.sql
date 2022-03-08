@@ -1,3 +1,4 @@
+CREATE DATABASE IF NOT EXISTS podcasts;
 USE podcasts;
 
 -- New record for each membership that currently exists
