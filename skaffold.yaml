@@ -8,14 +8,15 @@ build:
   local:
     push: false
   artifacts:
-    - image: jsmainwaring/client
-      context: client
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: 'src/**/*.js'
-            dest: .
+  # Uncomment
+    # - image: jsmainwaring/client
+    #   context: client
+    #   docker:
+    #     dockerfile: Dockerfile
+    #   sync:
+    #     manual:
+    #       - src: 'src/**/*.js'
+    #         dest: .
     - image: jsmainwaring/comments
       context: comments
       docker:
@@ -80,5 +81,3 @@ build:
         manual:
           - src: '*.js'
             dest: .
-    # - image: mysql
-    #   context: mysql
