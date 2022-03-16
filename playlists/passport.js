@@ -3,7 +3,7 @@ const SpotifyStrategy = require('passport-spotify').Strategy;
 require('dotenv').config();
 
 // Change port to 8888 if not running through kubernetes;  
-const port = 32000;  
+const port = 4020;  
 var myConfig = {};
 
 passport.serializeUser(function (user, done) {
