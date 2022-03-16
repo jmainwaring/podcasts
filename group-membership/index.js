@@ -102,6 +102,6 @@ app.delete('/groups/membership/:id', async (req, res) => {
 
 
 
-app.listen(4010, () => {
-  console.log('Listening on 4010');
+app.listen(8008, () => {
+  console.log('Listening on 8008');
 });
